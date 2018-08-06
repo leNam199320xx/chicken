@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    background: gray;
+    margin: 0;
+}
+
+.page {
+    margin-right: auto;
+    margin-left: auto;
+    width: 320px;
+    height: 480px;
+    background: white;
+}
+
+.load-area {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+}
