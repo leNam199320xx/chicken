@@ -9,9 +9,27 @@ body {
     width: 320px;
     height: 480px;
     background: white;
+    position: relative;
 }
 
-.load-area {
+.page .background{
+    position: absolute;
+}
+
+.page .content {
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+}
+
+.start-page .start-button {
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    margin-top: 300px;
+}
+
+.loading {
     position: absolute;
     z-index: -1;
     opacity: 0;

@@ -5,8 +5,8 @@ export class TimeLineService {
     fpsDefault = 60;
     fps = 60;
     frame = 0;
-    frameEnd = 10000;
-    timeend = 6000; // milisecond
+    frameEnd = 100;
+    timeend = 600; // milisecond
     isLoop = false;
     actions: TimeLineAction[] = [];
     actionsFromStart: TimeLineAction[] = [];
@@ -124,12 +124,12 @@ export class TimeLineService {
                 act.frameEnd += this.actionsContinueStartFrame;
                 this.actionsContinueStartFrame += act.frameEnd;
                 start = (act.frameStart > start) ? act.frameStart : start;
-                end = (act.frameEnd > end) ? act.frameStart : end;
+                end = (act.frameEnd > end) ? act.frameEnd : end;
             }
         }
-        if (start + end > this.frameEnd) {
-            this.frameEnd = start + end;
-        }
+        // if (start + end > this.frameEnd) {
+        this.frameEnd = end;
+        // }
     }
 
     getCurrentFrame() {

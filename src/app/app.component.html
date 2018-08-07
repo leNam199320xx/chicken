@@ -1,6 +1,10 @@
 <div class='game'>
-    <app-start *ngIf='appServ.pageIndex === 0'></app-start>
-    <app-main *ngIf='appServ.pageIndex === 1'></app-main>
+    <ng-container *ngIf='loadServ.isDone'>
+        <app-start *ngIf='appServ.pageIndex === 0'></app-start>
+        <app-main *ngIf='appServ.pageIndex === 1'></app-main>
+    </ng-container>
+    <ng-container *ngIf='!loadServ.isDone'>
+        Loading...
+        <!-- <button (click)='loadServ.isDone = true;'>load</button> -->
+    </ng-container>
 </div>
-
-<div class='load-area'></div>

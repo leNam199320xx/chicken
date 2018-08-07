@@ -1,3 +1,6 @@
-<div class='page'>
-    <button class='center' (click)='gotoMainPage()'>Start Game</button>
+<div class='page start-page'>
+    <img *ngIf='backgroundImage' class='background' src="{{backgroundImage.url}}" />
+    <div class='content'>
+        <img class='start-button' (click)='gotoMainPage()' src="{{startImage.url}}" />
+    </div>
 </div>

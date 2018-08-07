@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '../../node_modules/@angular/common/http';
+import { FileModel } from './common/file.model';
 @Injectable()
 export class AppService {
     pageIndex = 0;
@@ -7,7 +8,6 @@ export class AppService {
     listPages = ['start', 'main', 'result', 'history'];
     images: HTMLImageElement[] = [];
     constructor(private http: HttpClient) {
-
     }
     next() {
         this.pageIndex += (this.pageIndex < this.pageLength - 1 && this.pageIndex >= 0) ? 1 : 0;
@@ -22,6 +22,6 @@ export class AppService {
     }
 
     getImageFromServer() {
-        return this.http.get('assets/configs/images.json');
+        return this.http.get<FileModel[]>('assets/configs/images.json');
     }
 }

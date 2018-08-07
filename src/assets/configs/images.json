@@ -1,29 +1,17 @@
-[
-    {
+[{
         "filetype": "image",
-        "url": "/assets/ws_Blue_Abstract_Background_320x480.jpg",
+        "name": "start background",
+        "page": "start",
+        "url": "/assets/images/ws_Blue_Abstract_Background_320x480.jpg",
         "type": "background",
-        "size": [
-            320,
-            480
-        ]
+        "size": [320, 480]
     },
     {
         "filetype": "image",
-        "url": "/assets/ws_Blue_Abstract_Background_320x480.jpg",
-        "type": "background",
-        "size": [
-            320,
-            480
-        ]
-    },
-    {
-        "filetype": "image",
-        "url": "/assets/ws_Blue_Abstract_Background_320x480.jpg",
-        "type": "background",
-        "size": [
-            320,
-            480
-        ]
+        "name": "start button",
+        "page": "start",
+        "url": "/assets/images/play.png",
+        "type": "button",
+        "size": [131, 131]
     }
 ]

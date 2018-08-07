@@ -4,14 +4,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { StartComponent } from './start/start.component';
-import { CommonComponent } from './common/common.component';
 import { MainComponent } from './main/main.component';
 import { AppService } from './app.service';
 import { TimeLineService } from './common/timeline.service';
+import { LoaderService } from './common/loader.service';
 @NgModule({
     declarations: [
         AppComponent,
-        CommonComponent,
         StartComponent,
         MainComponent
     ],
@@ -19,7 +18,7 @@ import { TimeLineService } from './common/timeline.service';
         BrowserModule,
         HttpClientModule
     ],
-    providers: [AppService, TimeLineService],
+    providers: [AppService, TimeLineService, LoaderService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,13 +1,6 @@
-import { Component } from '@angular/core';
 import { TimeLineService, TimeLineAction, StartFrom } from './timeline.service';
-import { AppService } from '../app.service';
-
-@Component({
-    selector: 'app-common',
-    template: ''
-})
 export class CommonComponent {
-    constructor(public tlService: TimeLineService, public appServ: AppService) { }
+    private tlService: TimeLineService;
     start() {
         const ac = new TimeLineAction();
         const ac1 = new TimeLineAction();
@@ -27,6 +20,9 @@ export class CommonComponent {
         this.tlService.stop();
     }
 
+    loop() {
+        this.tlService.isLoop = !this.tlService.isLoop;
+    }
     play() {
         if (!this.tlService.isPause) {
             this.tlService.pause();
