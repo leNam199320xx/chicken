@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileModel, FileType } from './file.model';
-import { Subject } from '../../../node_modules/rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class LoaderService {
@@ -54,6 +54,7 @@ export class LoaderService {
             if (this.loadingIndex < this.duration - 1) {
                 this.loadingIndex++;
                 this.loadOne();
+                console.log('load one !');
             } else {
                 console.log('load done !');
                 this.isDone = true;

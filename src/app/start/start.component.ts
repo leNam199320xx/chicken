@@ -18,7 +18,7 @@ export class StartComponent extends CommonComponent implements OnInit {
         super();
     }
     ngOnInit() {
-        console.log('start');
+        // console.log('start');
         this.loaderServ.filesSub.subscribe(res => {
             if (res.type === FileType.image) {
                 this.loadImage();

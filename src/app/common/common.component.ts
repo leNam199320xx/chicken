@@ -1,18 +1,8 @@
 import { TimeLineService, TimeLineAction, StartFrom } from './timeline.service';
+import { ActionModel } from './action.model';
 export class CommonComponent {
-    private tlService: TimeLineService;
+    public tlService: TimeLineService;
     start() {
-        const ac = new TimeLineAction();
-        const ac1 = new TimeLineAction();
-        const ac2 = new TimeLineAction();
-        ac.startPosition = StartFrom.start;
-        this.tlService.actions.push(ac);
-        this.tlService.actions.push(ac);
-        this.tlService.actions.push(ac);
-
-        this.tlService.actions.push(ac1);
-        ac2.delay = 3000;
-        this.tlService.actions.push(ac2);
         this.tlService.start();
     }
 
@@ -28,6 +18,21 @@ export class CommonComponent {
             this.tlService.pause();
         } else {
             this.tlService.play();
+        }
+    }
+
+    addAction() {
+        const ac = new TimeLineAction();
+        ac.startPosition = StartFrom.start;
+        ac.isLoop = true;
+        ac.action = new ActionModel();
+        ac.action.create();
+        ac.action.positionTarget.rotate = 30;
+        ac.action.positionCurrent = ac.action.positionTarget;
+
+        this.tlService.actions.push(ac);
+        if (this.tlService.mainpage) {
+            this.tlService.mainpage.appendChild(ac.action.elementTransform);
         }
     }
 }

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActionModel } from './action.model';
 
 @Injectable()
 export class TimeLineService {
@@ -8,6 +9,8 @@ export class TimeLineService {
     frameEnd = 100;
     timeend = 600; // milisecond
     isLoop = false;
+    hasActionLoop = false;
+    mainpage: HTMLElement;
     actions: TimeLineAction[] = [];
     actionsFromStart: TimeLineAction[] = [];
     actionsContinue: TimeLineAction[] = [];
@@ -31,6 +34,8 @@ export class TimeLineService {
         this.frameEnd = Math.round(this.timeend / this.fpsDefault);
         this.startTime = Date.now();
         this.currentTime = Date.now();
+        this.currentFrame = 0;
+        this.hasActionLoop = false;
         this.resetAction();
         this.render();
         document.body.appendChild(this.d);
@@ -49,29 +54,40 @@ export class TimeLineService {
         // -------------ACTION----------------
         if (tick) {
             this.fps = 1000 / tick;
-            console.log(this.currentFrame);
             // -------------------------------
             for (let j = 0, jl = this.actionsFromStart.length; j < jl; j++) {
                 const act = this.actionsFromStart[j];
-                if (act.startPosition === StartFrom.start
-                    && this.currentFrame >= act.frameStart
-                    && this.currentFrame < act.frameEnd) {
-                    act.run(this.currentFrame - act.frameStart);
-                    console.log(this.currentFrame, 'action');
+                if (!act.isLoop) {
+                    if (act.startPosition === StartFrom.start
+                        && this.currentFrame >= act.frameStart
+                        && this.currentFrame < act.frameEnd) {
+                        act.run(this.currentFrame - act.frameStart);
+                    }
+                } else {
+                    this.hasActionLoop = true;
+                    if (act.startPosition === StartFrom.start && this.currentFrame >= act.frameStart) {
+                        act.run((this.currentFrame - act.frameStart) % act.framePass);
+                    }
                 }
             }
             for (let i = 0, il = this.actionsContinue.length; i < il; i++) {
                 const act = this.actionsContinue[i];
-                if (act.startPosition === StartFrom.continue
-                    && this.currentFrame >= act.frameStart
-                    && this.currentFrame < act.frameEnd) {
-                    act.run(this.currentFrame - act.frameStart);
-                    console.log(this.currentFrame, 'action cont');
+                if (!act.isLoop) {
+                    if (act.startPosition === StartFrom.continue
+                        && this.currentFrame >= act.frameStart
+                        && this.currentFrame < act.frameEnd) {
+                        act.run(this.currentFrame - act.frameStart);
+                    }
+                } else {
+                    this.hasActionLoop = true;
+                    if (act.startPosition === StartFrom.continue && this.currentFrame >= act.frameStart) {
+                        act.run((this.currentFrame - act.frameStart) % act.framePass);
+                    }
                 }
             }
             // -------------------------------
             this.currentFrame++;
-            if (this.currentFrame === this.frameEnd) {
+            if (this.currentFrame === this.frameEnd && !this.hasActionLoop) {
                 if (this.isLoop) {
                     this.currentFrame = 0;
                 } else {
@@ -149,9 +165,11 @@ export class TimeLineAction {
     startPosition: StartFrom = StartFrom.continue;
     frameStart = 0;
     frameEnd = 0;
-    action: any;
+    currentActionFrame = 0;
+    action: ActionModel;
     framePass = 0;
     isDone = false;
+    isLoop = false;
     tick = 16;
     setFrame() {
         if (this.fps > 0 && this.delay >= 0 && this.time > 0) {
@@ -170,10 +188,14 @@ export class TimeLineAction {
         this.fps = _fps;
     }
 
-    run(_pass: number) {
-        const _run = (typeof (this.action) === 'function') ? this.action() : null;
-        this.isDone = this.framePass === _pass;
-        return _run;
+    run(_frame: number) {
+        this.currentActionFrame = _frame;
+        // const _run = (typeof (this.action) === 'function') ? this.action() : null;
+        this.isDone = this.framePass === this.currentActionFrame;
+        if (this.action) {
+            this.action.excute();
+        }
+        // return _run;
     }
 }
 

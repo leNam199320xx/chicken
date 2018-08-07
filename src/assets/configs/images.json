@@ -13,5 +13,13 @@
         "url": "/assets/images/play.png",
         "type": "button",
         "size": [131, 131]
-    }
+    },
+    {
+        "filetype": "image",
+        "name": "common background",
+        "page": "common",
+        "url": "/assets/images/ws_Blue_Abstract_Background_320x480_2.jpg",
+        "type": "background",
+        "size": [320, 480]
+    }    
 ]

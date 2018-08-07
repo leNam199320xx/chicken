@@ -1,4 +1,5 @@
 <div class='game'>
+    <img class='background' *ngIf='commonBackgroundImage' src="{{commonBackgroundImage.url}}" />
     <ng-container *ngIf='loadServ.isDone'>
         <app-start *ngIf='appServ.pageIndex === 0'></app-start>
         <app-main *ngIf='appServ.pageIndex === 1'></app-main>

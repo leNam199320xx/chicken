@@ -6,5 +6,6 @@ export enum PageName {
     start = 'start',
     main = 'main',
     result = 'result',
-    history = 'history'
+    history = 'history',
+    common = 'common'
 }
