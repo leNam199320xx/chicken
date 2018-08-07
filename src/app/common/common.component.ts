@@ -1,4 +1,4 @@
-import { TimeLineService, TimeLineAction } from './timeline.service';
+import { TimeLineService, TimeLineAction, StartFrom } from './timeline.service';
 import { ActionPosition } from './action.model';
 export class CommonComponent {
     public tlService: TimeLineService;
@@ -39,6 +39,7 @@ export class CommonComponent {
         en.x = 300;
         en.y = 400;
         const ac = new TimeLineAction();
+        ac.startPosition = StartFrom.start;
         ac.animation.start = st;
         ac.animation.end = en;
         this.tlService.actions.push(ac);
@@ -51,6 +52,7 @@ export class CommonComponent {
         const ac2 = new TimeLineAction();
         ac2.animation.start = st;
         ac2.animation.end = en2;
+        ac2.startPosition = StartFrom.start;
         this.tlService.actions.push(ac2);
         ac2.action.create();
     }
