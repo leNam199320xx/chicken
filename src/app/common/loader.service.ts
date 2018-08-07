@@ -54,9 +54,7 @@ export class LoaderService {
             if (this.loadingIndex < this.duration - 1) {
                 this.loadingIndex++;
                 this.loadOne();
-                console.log('load one !');
             } else {
-                console.log('load done !');
                 this.isDone = true;
             }
             ele.parentElement.removeChild(ele);

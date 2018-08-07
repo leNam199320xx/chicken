@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ActionModel } from './action.model';
+import { ActionModel, ActionPosition } from './action.model';
+import { AnimationModel } from './animation.model';
 
 @Injectable()
 export class TimeLineService {
@@ -38,6 +39,10 @@ export class TimeLineService {
         this.hasActionLoop = false;
         this.resetAction();
         this.render();
+        console.log(this.actions);
+        this.actions.forEach(e => {
+            e.setAnimation();
+        });
         document.body.appendChild(this.d);
     }
 
@@ -111,6 +116,8 @@ export class TimeLineService {
 
     stop() {
         this.isPlay = false;
+        this.actionsFromStart = [];
+        this.actionsContinue = [];
         cancelAnimationFrame(this.timeline);
     }
 
@@ -143,9 +150,7 @@ export class TimeLineService {
                 end = (act.frameEnd > end) ? act.frameEnd : end;
             }
         }
-        // if (start + end > this.frameEnd) {
         this.frameEnd = end;
-        // }
     }
 
     getCurrentFrame() {
@@ -156,9 +161,7 @@ export class TimeLineService {
 }
 
 export class TimeLineAction {
-    constructor(public fps = 60) {
-
-    }
+    fps = 60;
     name = 'default';
     time = 1000;
     delay = 0;
@@ -166,7 +169,9 @@ export class TimeLineAction {
     frameStart = 0;
     frameEnd = 0;
     currentActionFrame = 0;
-    action: ActionModel;
+    action: ActionModel = new ActionModel();
+    actionPositions: ActionPosition[];
+    animation: AnimationModel = new AnimationModel();
     framePass = 0;
     isDone = false;
     isLoop = false;
@@ -184,18 +189,24 @@ export class TimeLineAction {
         return this;
     }
 
+    setAnimation() {
+        if (this.animation) {
+            this.animation.frameCount = this.framePass;
+            this.actionPositions = this.animation.goStraight();
+        }
+    }
+
     setFps(_fps: number) {
         this.fps = _fps;
     }
 
     run(_frame: number) {
         this.currentActionFrame = _frame;
-        // const _run = (typeof (this.action) === 'function') ? this.action() : null;
         this.isDone = this.framePass === this.currentActionFrame;
-        if (this.action) {
-            this.action.excute();
+        if (this.action && this.currentActionFrame < this.actionPositions.length) {
+            console.log(this.currentActionFrame);
+            this.action.excute(this.actionPositions[this.currentActionFrame]);
         }
-        // return _run;
     }
 }
 

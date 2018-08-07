@@ -14,7 +14,6 @@ export class AppComponent {
         this.appServ.getImageFromServer().subscribe(res => {
             this.setFiles(res);
         }, error => {
-            console.log('default config ', (<any>window).configs);
             this.setFiles((<any>window).configs);
         });
     }
@@ -29,11 +28,9 @@ export class AppComponent {
             }
         });
         this.loadServ.filesSub.subscribe(res => {
-            console.log('common', res);
             this.loadServ.images.forEach(item => {
                 if (item.page === PageName.common && item.type === 'background') {
                     this.commonBackgroundImage = item;
-                    console.log('common', item);
                 }
             });
         });
