@@ -1,5 +1,5 @@
 import { TimeLineService, TimeLineAction, StartFrom } from './timeline.service';
-import { ActionPosition } from './action.model';
+import { ActionPosition, TypeCubes } from './action.model';
 export class CommonComponent {
     public tlService: TimeLineService;
     start() {
@@ -54,6 +54,6 @@ export class CommonComponent {
         ac2.animation.end = en2;
         ac2.startPosition = StartFrom.start;
         this.tlService.actions.push(ac2);
-        ac2.action.create();
+        ac2.action.create(TypeCubes.circle);
     }
 }

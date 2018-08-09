@@ -39,7 +39,6 @@ export class TimeLineService {
         this.hasActionLoop = false;
         this.resetAction();
         this.render();
-        console.log(this.actions);
         this.actions.forEach(e => {
             e.setAnimation();
         });

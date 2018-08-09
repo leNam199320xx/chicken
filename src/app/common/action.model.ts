@@ -1,18 +1,37 @@
+import { CollisionModel, Box, Point } from './collision.model';
+
 export class ActionModel {
     element: HTMLElement = document.createElement('div');
     elementTransform: HTMLElement = document.createElement('div');
     position: ActionPosition = new ActionPosition();
     anchor: AnchorConfig = AnchorConfig.center;
-    create() {
-        this.element.style.height = this.position.h + 'px';
-        this.element.style.width = this.position.w + 'px';
+    typeCubes = TypeCubes.rectangle;
+    diameters: number[] = [];
+    radius: number[] = [];
+    collision: CollisionModel = new CollisionModel();
+    create(
+        _typeCubes = this.typeCubes,
+        _width = this.position.w,
+        _height = this.position.h
+    ) {
+        if (_typeCubes === TypeCubes.circle) {
+            _height = _width;
+            this.element.style.borderRadius = '50%';
+            this.diameters.push(_width);
+            this.radius.push(_width / 2);
+        } else if (_typeCubes === TypeCubes.square) {
+            _height = _width;
+        }
+        this.position.w = _width;
+        this.position.h = _height;
+        this.element.style.height = _height + 'px';
+        this.element.style.width = _width + 'px';
         this.element.className = 'item';
         this.element.style.transform = 'translate(-50%, -50%)';
         this.elementTransform.className = 'item';
         this.elementTransform.appendChild(this.element);
-        // this.elementTransform.style.height = this.positionStart.h + 'px';
-        // this.elementTransform.style.width = this.positionStart.w + 'px';
-        // this.elementTransform.className = 'item';
+        this.collision.root = this;
+        this.collision.setWall(new Point(0, 0), new Point(100, 0), new Point(0, 200), new Point(100, 200));
     }
 
     translate() {
@@ -29,6 +48,8 @@ export class ActionModel {
         this.position = _position;
         this.translate();
         this.rotate();
+        const re = this.collision.check();
+        console.log(re);
     }
 }
 export enum ActionConfig {
@@ -56,4 +77,11 @@ export enum AnchorConfig {
     topright = 'topright',
     bottomleft = 'bottomleft',
     bottomright = 'bottomright'
+}
+
+export enum TypeCubes {
+    rectangle = 0,
+    square = 1,
+    circle = 2,
+    ellipse = 3
 }
